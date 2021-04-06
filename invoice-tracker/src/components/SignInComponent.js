@@ -70,6 +70,11 @@ const SubmitButton = styled.input`
   margin-top: 40px;
 `
 
+const ErrorLabel = styled.div`
+  font-size: 26px;
+  color: red;
+`
+
 class SignInComponent extends React.Component {
   
   constructor(props) {
@@ -78,7 +83,9 @@ class SignInComponent extends React.Component {
     this.state = {
       email: "",
       password: "",
-      rememberMe: false
+      rememberMe: false,
+      emailError: "",
+      passwordError: ""
     }
 
     this.handleEmailInputChange = this.handleEmailInputChange.bind(this)
@@ -100,7 +107,25 @@ class SignInComponent extends React.Component {
   }
 
   handleSubmit(e) {
-    alert(JSON.stringify(this.state))
+    var emailError = ""
+    var passwordError = ""
+
+    if(!this.state.email) {
+      emailError = "Email can't be empty"
+    }
+
+    if(!this.state.password) {
+      passwordError = "Password can't be empty" 
+    } else if (this.state.password.length < 8) {
+      passwordError = "Password should be at least 8 characters" 
+    }
+
+    if(emailError || passwordError) {
+      this.setState({emailError, passwordError})
+      e.preventDefault()
+    } else {
+      alert(JSON.stringify(this.state))
+    }
   }
 
   render() {
@@ -115,10 +140,14 @@ class SignInComponent extends React.Component {
                         value={this.state.email} 
                         onChange={this.handleEmailInputChange}/>
 
+            {this.state.emailError && <ErrorLabel>{this.state.emailError}</ErrorLabel>}
+
             <Label>Password</Label>
             <PasswordInput type="password" 
                            value={this.state.password}
                            onChange={this.handlePasswordInputChange}/>
+                           
+            {this.state.passwordError && <ErrorLabel>{this.state.passwordError}</ErrorLabel>}
 
             <CheckboxContainer>
               <RememberMeCheckbox type="checkbox" 
