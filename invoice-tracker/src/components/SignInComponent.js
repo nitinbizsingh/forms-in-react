@@ -95,11 +95,11 @@ class SignInComponent extends React.Component {
   }
 
   handleEmailInputChange(e) {
-    this.setState({email: e.target.value})
+    this.setState({email: e.target.value, emailError: ""})
   }
 
   handlePasswordInputChange(e) {
-    this.setState({password: e.target.value})
+    this.setState({password: e.target.value, passwordError: ""})
   }
 
   handleRememberMeInputChange(e) {
@@ -146,7 +146,7 @@ class SignInComponent extends React.Component {
             <PasswordInput type="password" 
                            value={this.state.password}
                            onChange={this.handlePasswordInputChange}/>
-                           
+
             {this.state.passwordError && <ErrorLabel>{this.state.passwordError}</ErrorLabel>}
 
             <CheckboxContainer>
