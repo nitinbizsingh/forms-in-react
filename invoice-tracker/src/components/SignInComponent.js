@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Formik, Field, Form, ErrorMessage } from 'formik';
 
 const Container = styled.div`
   display: flex;
@@ -20,7 +21,7 @@ const Title = styled.h1`
   white-space: pre-line;
 `
 
-const Form = styled.form`
+const SignInForm = styled(Form)`
   display: flex;
   flex-direction: column;
   padding: 30px;
@@ -32,12 +33,12 @@ const Label = styled.label`
   font-size: 24px;
 `
 
-const EmailInput = styled.input`
+const EmailField = styled(Field)`
   height: 40px;
   font-size: 24px;
 `
 
-const PasswordInput = styled.input`
+const PasswordField = styled(Field)`
   height: 40px;
   font-size: 24px;
 `
@@ -53,7 +54,7 @@ const CheckboxLabel = styled(Label)`
   margin-left: 10px;
 `
 
-const RememberMeCheckbox = styled.input`
+const RememberMeCheckboxField = styled(Field)`
   margin-top: 10px;
 `
 
@@ -80,52 +81,32 @@ class SignInComponent extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      email: "",
-      password: "",
-      rememberMe: false,
-      emailError: "",
-      passwordError: ""
-    }
-
-    this.handleEmailInputChange = this.handleEmailInputChange.bind(this)
-    this.handlePasswordInputChange = this.handlePasswordInputChange.bind(this)
-    this.handleRememberMeInputChange = this.handleRememberMeInputChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleValidation = this.handleValidation.bind(this)
   }
 
-  handleEmailInputChange(e) {
-    this.setState({email: e.target.value, emailError: ""})
+  handleSubmit(values, actions) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve()
+        alert(JSON.stringify(values))
+      }, 5000)
+    });
   }
 
-  handlePasswordInputChange(e) {
-    this.setState({password: e.target.value, passwordError: ""})
-  }
+  handleValidation(values) {
+    const errors = {};
 
-  handleRememberMeInputChange(e) {
-    this.setState({rememberMe: e.target.value})
-  }
-
-  handleSubmit(e) {
-    var emailError = ""
-    var passwordError = ""
-
-    if(!this.state.email) {
-      emailError = "Email can't be empty"
+    if(!values.email) {
+      errors.email = "Email can't be empty"
     }
 
-    if(!this.state.password) {
-      passwordError = "Password can't be empty" 
-    } else if (this.state.password.length < 8) {
-      passwordError = "Password should be at least 8 characters" 
+    if(!values.password) {
+      errors.password = "Password can't be empty" 
+    } else if (values.password.length < 8) {
+      errors.password = "Password should be at least 8 characters" 
     }
-
-    if(emailError || passwordError) {
-      this.setState({emailError, passwordError})
-      e.preventDefault()
-    } else {
-      alert(JSON.stringify(this.state))
-    }
+    return errors
   }
 
   render() {
@@ -134,30 +115,38 @@ class SignInComponent extends React.Component {
           <ContentContainer>
           <Title>{"Sign In"}</Title>
           
-          <Form onSubmit={this.handleSubmit}>
-            <Label>Email</Label>
-            <EmailInput type="email" 
-                        value={this.state.email} 
-                        onChange={this.handleEmailInputChange}/>
+          <Formik initialValues={{ email: '', password: '', rememberMe: false }} 
+                  onSubmit={this.handleSubmit}
+                  validate={this.handleValidation}>
 
-            {this.state.emailError && <ErrorLabel>{this.state.emailError}</ErrorLabel>}
+            {props => (
 
-            <Label>Password</Label>
-            <PasswordInput type="password" 
-                           value={this.state.password}
-                           onChange={this.handlePasswordInputChange}/>
+              <SignInForm>
+                <Label>Email</Label>
+                <EmailField name="email" type="email"/>
 
-            {this.state.passwordError && <ErrorLabel>{this.state.passwordError}</ErrorLabel>}
+                <ErrorMessage name="email">
+                  {error => <ErrorLabel>{error}</ErrorLabel>}
+                </ErrorMessage>
 
-            <CheckboxContainer>
-              <RememberMeCheckbox type="checkbox" 
-                                  checked={this.state.rememberMe}
-                                  onChange={this.handleRememberMeInputChange}/>
-              <CheckboxLabel>Remember me</CheckboxLabel>
-            </CheckboxContainer>
+                <Label>Password</Label>
+                <PasswordField name="password" type="password"/>
 
-            <SubmitButton type="submit"/>
-          </Form>
+                <ErrorMessage name="password">
+                  {error => <ErrorLabel>{error}</ErrorLabel>}
+                </ErrorMessage>
+
+                <CheckboxContainer>
+                  <RememberMeCheckboxField type="checkbox" name="rememberMe"/>
+                  <CheckboxLabel>Remember me</CheckboxLabel>
+                </CheckboxContainer>
+
+                <SubmitButton type="submit" disabled={props.isSubmitting}/>
+              </SignInForm>
+
+            )}
+          </Formik>
+
           </ContentContainer>
         </Container>
       ); 
