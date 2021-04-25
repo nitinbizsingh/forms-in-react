@@ -16,7 +16,10 @@ const RatingsContainer = styled.div`
   margin-top: 5px;
 `
 
-const RatingsButton = styled.button`
+const RatingsButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: ${props => props.isSelected ? "yellow" : "white"};
   margin-right: 10px;
   cursor: pointer;
