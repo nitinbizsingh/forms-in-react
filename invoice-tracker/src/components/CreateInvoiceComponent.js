@@ -17,7 +17,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 600px;
-  margin-top: 10px;
+  margin-top: 0px;
 `
 
 const Title = styled.h1`
@@ -33,7 +33,7 @@ const CreateInvoiceForm = styled(Form)`
 
 const Label = styled.label`
   font-size: 24px;
-  margin-top: 20px;
+  margin-top: 10px;
 `
 
 const EmailFieldInput = styled(EmailField)`
@@ -52,7 +52,7 @@ const BilledAmountField = styled(Field)`
 `
 
 const RatingFieldInput = styled(RatingField)`
-  margin-top: 20px;
+  margin-top: 10px;
 `
 
 const SubmitButton = styled.input`
