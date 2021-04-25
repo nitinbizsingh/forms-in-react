@@ -93,7 +93,7 @@ class CreateInvoiceComponent extends React.Component {
       setTimeout(() => {
         resolve()
         alert(JSON.stringify(values))
-      }, 5000)
+      }, 2000)
     });
   }
 
