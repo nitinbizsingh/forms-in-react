@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import EmailField from "./EmailField"
+import RatingField from "./RatingField"
 
 const Container = styled.div`
   display: flex;
@@ -16,7 +17,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 600px;
-  margin-top: 50px;
+  margin-top: 10px;
 `
 
 const Title = styled.h1`
@@ -50,6 +51,10 @@ const BilledAmountField = styled(Field)`
   font-size: 24px;
 `
 
+const RatingFieldInput = styled(RatingField)`
+  margin-top: 20px;
+`
+
 const SubmitButton = styled.input`
   height: 40px;
   width: 100px;
@@ -71,7 +76,8 @@ const ErrorLabel = styled.div`
 const CreateInvoiceSchema = Yup.object().shape({
    email: Yup.string().email("Invalid email").required("Email can't be empty"),
    projectName: Yup.string().required("Project name can't be empty"),
-   billedAmount: Yup.number().required("Billed amont can't be empty").min(1, "Invalid amont")
+   billedAmount: Yup.number().required("Billed amount can't be empty").min(1, "Invalid amont"),
+   rating: Yup.number().min(1, "Rating can't be empty")
  });
 
 class CreateInvoiceComponent extends React.Component {
@@ -97,7 +103,7 @@ class CreateInvoiceComponent extends React.Component {
           <ContentContainer>
           <Title>{"Create Invoice"}</Title>
           
-          <Formik initialValues={{ email: '', projectName: '', billedAmount: '' }} 
+          <Formik initialValues={{ email: '', projectName: '', billedAmount: '', rating: 0 }} 
                   onSubmit={this.handleSubmit}
                   validationSchema={CreateInvoiceSchema}>
 
@@ -119,6 +125,8 @@ class CreateInvoiceComponent extends React.Component {
                 <ErrorMessage name="billedAmount">
                   {error => <ErrorLabel>{error}</ErrorLabel>}
                 </ErrorMessage>
+
+                <RatingFieldInput name="rating" label={"Project Rating"}/>
 
                 <SubmitButton type="submit" disabled={props.isSubmitting}/>
               </CreateInvoiceForm>

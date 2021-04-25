@@ -1,5 +1,4 @@
  import React from 'react';
- import ReactDOM from 'react-dom';
  import styled from "styled-components";
  import {useField} from 'formik';
  
@@ -27,7 +26,7 @@ const EmailField = ({ label, ...props }) => {
      <Container>
        <Label htmlFor={props.id || props.name}>{label}</Label>
 
-       <InputField className="text-input" {...field} {...props} />
+       <InputField {...field} {...props} />
 
        {meta.touched && meta.error && (
          <ErrorMessage>{meta.error}</ErrorMessage>
