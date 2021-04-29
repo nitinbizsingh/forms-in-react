@@ -73,7 +73,7 @@ const ErrorLabel = styled.div`
   color: red;
 `
 
-const FieldInput = styled.input`
+const FileInput = styled.input`
   margin-top: 10px;
   font-size: 16px;
 `
@@ -131,7 +131,7 @@ class CreateInvoiceComponent extends React.Component {
                 <RatingFieldInput name="rating" label={"Project Rating"}/>
 
                 <Label>Upload receipt(s)</Label>
-                <FieldInput type="file" ref={this.fileInput}/>
+                <FileInput type="file" ref={this.fileInput}/>
 
                 <SubmitButton type="submit" disabled={props.isSubmitting}/>
               </CreateInvoiceForm>
